@@ -1,18 +1,18 @@
 module.exports = (sequelize, DataType) => {
-    const Pizzas = sequelize.define('Pizzas', {
+    const Desing = sequelize.define('Desing', {
         id: {
             type: DataType.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        title: {
-            type: DataType.STRING,
+        ingredientId: {
+            type: DataType.INTEGER,
             allowNull: false,
             validate: {
                 notEmpty: true
             }
         },
-        description: {
+        typeIngredient: {
             type: DataType.STRING,
             allowNull: false,
             validate: {
@@ -22,12 +22,8 @@ module.exports = (sequelize, DataType) => {
 
     })
 
-    Pizzas.associate = (models) => {
-        Pizzas.belongsTo(models.Users);
-    };
-
-    Pizzas.associate = (models) => {
-        Pizzas.hasMany(models.Desing);
-    };
-    return Pizzas;
+    Desing.associate = (models) => {
+        Desing.belongsTo(models.Pizzas);
+    }
+    return Desing;
 };

@@ -5,7 +5,21 @@ module.exports = (sequelize, DataType) => {
             primaryKey: true,
             autoIncrement: true
         },
+        idCard: {
+            type: DataType.INTEGER,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
         name: {
+            type: DataType.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
+        },
+        lastName: {
             type: DataType.STRING,
             allowNull: false,
             validate: {
@@ -18,6 +32,11 @@ module.exports = (sequelize, DataType) => {
             validate: {
                 notEmpty: true
             }
+        },
+        userType: {
+            type: DataType.STRING,
+            allowNull: false,
+            defaultValue: "N"
         },
         email: {
             type: DataType.STRING,

@@ -8,7 +8,7 @@ module.exports = app => {
                 .then(result => res.json(result))
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
-                })
+                })  
         })
         .post((req, res) => {
             Pizzas.create(req.body)
