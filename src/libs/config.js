@@ -1,7 +1,7 @@
 module.exports = {
-    "database": 'PizzaDesing',
+    "database": 'pizzadesing',
     "username": 'root',
-    "password": 'Cara201919*',
+    "password": 'password',
     "host": 'localhost',
     "port": '3306',
     "dialect": 'mysql'

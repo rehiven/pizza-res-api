@@ -45,12 +45,13 @@ module.exports = app => {
                 })
             })  
         .put((req, res) => {
-            const { name, lastName,  email} = req.body;
+            const { name, lastName,  email, password} = req.body;
             console.log(req.body)
             Users.update({
                 name: name,
                 lastName: lastName,
-                email: email
+                email: email,
+                password: password
             },
                 {
                     where: {

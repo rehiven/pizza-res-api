@@ -1,13 +1,11 @@
 module.exports = app => {
-    const Desing = app.db.models.Desing;
-    const Ingredients = app.db.models.Ingredients;
-
+    const Details = app.db.models.Details;
     //* Nota agregar json web tokens - BCRYPT para cifrar datos  */
     
 
-    app.route('/desing/:id')
+    app.route('/detail/:id')
         .get((req, res) => {
-            Desing.findAll({})
+            Details.findAll({})
             .then(result => res.json(result))
             .catch(error => {
                 res.status(412).json({ msg: error.message });
@@ -15,23 +13,23 @@ module.exports = app => {
         })
         .post((req, res) => {
             console.log(req);
-            Desing.create(req.body)
+            Details.create(req.body)
                 .then(result => res.json(result))
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
                 })
         });
 
-    app.post('/desing', (req, res) => {
-        Desing.create(req.body)
+    app.post('/detail', (req, res) => {
+        Details.create(req.body)
             .then(result => (res.json(result)))
             .catch(error => {
                 res.status(412).json({ msg: error.message });
             });
     });
 
-    app.delete('/desing/:id', (req, res) => {
-        Desing.destroy({ where: { pizzaId: req.params.pizzaId } })
+    app.delete('/detail/:id', (req, res) => {
+        Details.destroy({ where: { pizzaId: req.params.pizzaId } })
             .then(result => res.sendStatus(204))
             .catch(error => {
                 res.status(412).json({ msg: error.message });

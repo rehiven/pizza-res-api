@@ -1,11 +1,11 @@
 module.exports = (sequelize, DataType) => {
-    const Pizzas = sequelize.define('Pizzas', {
+    const Ingredients = sequelize.define('Ingredients', {
         id: {
             type: DataType.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        title: {
+        name: {
             type: DataType.STRING,
             allowNull: false,
             validate: {
@@ -18,15 +18,21 @@ module.exports = (sequelize, DataType) => {
             validate: {
                 notEmpty: true
             }
+        },
+        typeIngredient: {
+            type: DataType.STRING,
+            allowNull: false,
+            validate: {
+                notEmpty: true
+            }
         }
 
     })
 
-    Pizzas.associate = (models) => {
-        Pizzas.hasMany(models.Desing);
-        Pizzas.hasMany(models.Details);
-        Pizzas.belongsTo(models.Users);
+    Ingredients.associate = (models) => {
+        Ingredients.hasMany(models.Desing);
+        Ingredients.hasMany(models.Details);
     };
-    
-    return Pizzas;
+
+    return Ingredients;
 };
