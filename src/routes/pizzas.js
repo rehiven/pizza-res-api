@@ -1,5 +1,6 @@
 module.exports = app => {
 
+    //Estos son los modelos que se van a ocupar para luego manipular las tablas de la base de datos
     const Pizzas = app.db.models.Pizzas;
     const Desing = app.db.models.Desing;
     const Details = app.db.models.Details;
@@ -14,14 +15,16 @@ module.exports = app => {
                 })  
         })
         .post((req, res) => {
-            
+            //Creo los objetos que voy a guardar luego
             let Pizzass = {
                 title : req.body.obj.title,
                 description : req.body.obj.description,
                 UserId : req.body.obj.UserId
             }
+            //este es el desing de cada pizza, contiene todos los ingredientes que lleva
             let Desings = []
 
+            //este es la orden de que se realiza
             let Orderss ={
                 state: 0,
                 total: req.body.amount,
@@ -30,25 +33,18 @@ module.exports = app => {
 
             let Detailss = [];
             
-            Pizzas.create(Pizzass)
+            Pizzas.create(Pizzass)//Primero Inserto la Pizza
             .then(result => {
-                console.log("Informacion de  Pizza: "+result.dataValues.id);
-                console.log(req.body.mainIngredients);
                 req.body.pizza.mainIngredients.forEach(element => {
-                    console.log("Imprimiendo id Ingredientes "+element.id);
                     Desings.push({IngredientId: element.id, PizzaId: result.dataValues.id})
                 });
-
-               console.log("disings objet"+Desings+" ****///*********");
-
+                //Segundo se inserta el Desing que contiene todos los ingredientes que lleva la pizza
                 return Desing.bulkCreate(Desings).then(desingR=>{
+                    //Tercero se inserta la orden que se necesita para la cocina
                     return Orders.create(Orderss).then(ordersR=>{
-                        console.log()
-                        for(let i = 0; i<req.body.pizza.mainIngredients.length;i++){
-                            Detailss.push({price: req.body.pizza.mainIngredients[i].price,sum: req.body.pizza.mainIngredients[i].quantity ,OrderId: ordersR.dataValues.id,IngredientId: req.body.pizza.mainIngredients[i].id, PizzaId: result.dataValues.id})
-                        }
-                        console.log("Objeto detail"+Detailss+" ****///*********");
-
+                        req.body.pizza.mainIngredients.forEach(element => { //recorre los ingredientes para agregar en detalles la suma de todos los ingredientes usados
+                            Detailss.push({price: element.price,sum: element.quantity ,OrderId: ordersR.dataValues.id,IngredientId: element.id, PizzaId: result.dataValues.id})
+                        })
                         return Details.bulkCreate(Detailss).then(detailR=>{
                             res.json(result);
                         }) 
