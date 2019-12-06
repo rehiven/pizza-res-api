@@ -30,21 +30,22 @@ module.exports = app => {
 
             let Detailss = [];
             
-
             Pizzas.create(Pizzass)
             .then(result => {
-                console.log("cantidad de ingredientes "+req.body.pizza.mainIngredients.length);
-                for(let i = 0; i<req.body.pizza.mainIngredients.length;i++){
-                    
-                    Desings.push({IngredienteId: req.body.pizza.mainIngredients[i].id, PizzaId: result.dataValues.id})
-                }
+                console.log("Informacion de  Pizza: "+result.dataValues.id);
+                console.log(req.body.mainIngredients);
+                req.body.pizza.mainIngredients.forEach(element => {
+                    console.log("Imprimiendo id Ingredientes "+element.id);
+                    Desings.push({IngredientId: element.id, PizzaId: result.dataValues.id})
+                });
+
                console.log("disings objet"+Desings+" ****///*********");
 
                 return Desing.bulkCreate(Desings).then(desingR=>{
                     return Orders.create(Orderss).then(ordersR=>{
                         console.log()
                         for(let i = 0; i<req.body.pizza.mainIngredients.length;i++){
-                            Detailss.push({price: req.body.pizza.mainIngredients[i].price,sum: req.body.pizza.mainIngredients[i].quantity ,OrderId: ordersR.dataValues.id,IngredienteId: req.body.pizza.mainIngredients[i].id})
+                            Detailss.push({price: req.body.pizza.mainIngredients[i].price,sum: req.body.pizza.mainIngredients[i].quantity ,OrderId: ordersR.dataValues.id,IngredientId: req.body.pizza.mainIngredients[i].id, PizzaId: result.dataValues.id})
                         }
                         console.log("Objeto detail"+Detailss+" ****///*********");
 
@@ -78,11 +79,13 @@ module.exports = app => {
                 })
         });
 
-        app.get('/pizza/:id', (req, res) => {
-            console.log("entrando a ver pizzas");
+        app.get('/pizza', (req, res) => {
+            console.log("entrando a ver pizzas: "+ req.body.id);
             Pizzas.findAll({
-                where: {UserId: req.params.id}
+                where: {UserId: req.body.id},
+                include: Desing
             }).then(result => (res.json(result)))
+                .then()
                 .catch(error => {
                     res.status(412).json({ msg: error.message });
                 });
