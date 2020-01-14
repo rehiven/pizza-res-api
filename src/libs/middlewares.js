@@ -9,7 +9,7 @@ module.exports = app => {
     app.use(bodyParser.urlencoded({ extended: false }))
     app.use(bodyParser.json())
     app.use((req, res, next) => {
-        res.header("Acces-Control-Allow-Origin", ["http://localhost:3000", "http://192.168.0.7:3000", "http://10.24.10.60:3000"])
+        res.header("Acces-Control-Allow-Origin", ["http://localhost:3000", "http://172.23.1.50:3000","http://192.168.0.7", "http://10.24.10.60:3000"])
         res.header("Acces-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
         next()
     })

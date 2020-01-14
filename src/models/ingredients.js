@@ -19,6 +19,13 @@ module.exports = (sequelize, DataType) => {
                 notEmpty: true
             }
         },
+        price: {
+            type: DataType.DOUBLE,
+            allowNull: true,
+            validate: {
+                notEmpty: true
+            }
+        },
         typeIngredient: {
             type: DataType.STRING,
             allowNull: false,
@@ -30,7 +37,7 @@ module.exports = (sequelize, DataType) => {
     })
 
     Ingredients.associate = (models) => {
-        Ingredients.hasMany(models.Desing);
+        Ingredients.hasMany(models.Design);
         Ingredients.hasMany(models.Details);
     };
 

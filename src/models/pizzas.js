@@ -23,9 +23,10 @@ module.exports = (sequelize, DataType) => {
     })
 
     Pizzas.associate = (models) => {
-        Pizzas.hasMany(models.Desing);
+        Pizzas.hasMany(models.Design), {onDelete: 'CASCADE'};
         Pizzas.hasMany(models.Details);
         Pizzas.belongsTo(models.Users);
+        
     };
     
     return Pizzas;
